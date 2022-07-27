@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="CPP 零散知识1. 虚函数 vs 内联类内实现是强制内联的。 但是虚函数是会把内联给干到cpp内的。 所以会导致子类不能转化为基类的问题。 解决办法是，把类内实现给搞到cpp内，单独实现，不要内联。 1234567891011121314151617181920&#x2F;&#x2F;&#x2F; 1.hclass A&amp;#123;&amp;#125;class B: public A&amp;#123;&amp;#125;&#x2F;&#x2F;&#x2F; 2.hclass">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPP 零散知识">
+<meta property="og:url" content="http://example.com/2022/06/30/CPP/CPP%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="CPP 零散知识1. 虚函数 vs 内联类内实现是强制内联的。 但是虚函数是会把内联给干到cpp内的。 所以会导致子类不能转化为基类的问题。 解决办法是，把类内实现给搞到cpp内，单独实现，不要内联。 1234567891011121314151617181920&#x2F;&#x2F;&#x2F; 1.hclass A&amp;#123;&amp;#125;class B: public A&amp;#123;&amp;#125;&#x2F;&#x2F;&#x2F; 2.hclass">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T02:35:55.000Z">
+<meta property="article:modified_time" content="2022-06-30T02:59:13.029Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/06/30/CPP/CPP%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/06/30/CPP/CPP%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86/","path":"2022/06/30/CPP/CPP零散知识/","title":"CPP 零散知识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CPP 零散知识 | Hexo</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CPP-%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">CPP 零散知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%99%9A%E5%87%BD%E6%95%B0-vs-%E5%86%85%E8%81%94"><span class="nav-number">1.1.</span> <span class="nav-text">1. 虚函数 vs 内联</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/CPP/CPP%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CPP 零散知识 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CPP 零散知识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-06-30 10:35:55 / Modified: 10:59:13" itemprop="dateCreated datePublished" datetime="2022-06-30T10:35:55+08:00">2022-06-30</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="CPP-零散知识"><a href="#CPP-零散知识" class="headerlink" title="CPP 零散知识"></a>CPP 零散知识</h1><h2 id="1-虚函数-vs-内联"><a href="#1-虚函数-vs-内联" class="headerlink" title="1. 虚函数 vs 内联"></a>1. 虚函数 vs 内联</h2><p>类内实现是强制内联的。</p>
+<p>但是虚函数是会把内联给干到cpp内的。</p>
+<p>所以会导致子类不能转化为基类的问题。</p>
+<p>解决办法是，把类内实现给搞到cpp内，单独实现，不要内联。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 1.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>: <span class="keyword">public</span> A</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="comment">/// 2.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">visual A* <span class="title">fun1</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">D</span>: <span class="keyword">public</span> C</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 会出现 B转不了A的情况，我把fun1实现放cpp内就会通过</span></span><br><span class="line">    <span class="function">visual A* <span class="title">fun1</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span> </span>&#123;<span class="keyword">return</span> b;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    B* b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/shltsh/article/details/45999947">解释链接</a></p>
+<blockquote>
+<p>虚函数用于实现运行时的多态，或者称为晚绑定或动态绑定。而内联函数用于提高效率。<br>内联函数的原理是，在编译期间，对调用内联函数的地方的代码替换成函数代码。内联函数对于程序中需要频繁使用和调用的小函数非常有用。</p>
+</blockquote>
+<blockquote>
+<p>默认地，类中定义的所有函数，除了虚函数之外，会隐式地或自动地当成内联函数（注意：内联只是对于编译器的一个请求，编译器可以自己决定是否进行内联）。</p>
+</blockquote>
+<blockquote>
+<p>无论何时，使用基类指针或引用来调用虚函数，它都不能为内联函数（因为调用发生在运行时）。<br>但是，无论何时使用类的对象（不是指针或引用）来调用时，可以当做是内联，因为编译器在编译时确切知道对象是哪个类的。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">who</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;I am Base&quot;</span> &lt;&lt; std::endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">who</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;I am Derived&quot;</span> &lt;&lt; std::endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 此处的虚函数who()，是通过类的具体对象来调用的，编译期间就能确定了，所以它可以是内联的。</span></span><br><span class="line">    Base b;</span><br><span class="line">    b.<span class="built_in">who</span>();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 此处的虚函数是通过指针调用的，需要在运行时期间才能确定，所以不能为内联。</span></span><br><span class="line">    Base* ptr = <span class="keyword">new</span> <span class="built_in">Derived</span>();</span><br><span class="line">    ptr-&gt;<span class="built_in">who</span>();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leikun153/article/details/82187505">这个解释和总结的更好</a></p>
+<blockquote>
+<p>总结</p>
+<ul>
+<li>使用inline关键字的函数可能会被编译器忽略而不在调用处展开，如虚函数。</li>
+<li>如果定义的inline函数过大，为了防止生成的obj文件太大，编译器会忽略这里的inline声明</li>
+<li>inline是在编译器将函数类容替换到函数调用处，是静态编译的。而虚函数是动态调用的，在编译器并不知道需要调用的是父类还是子类的虚函数，所以不能够inline声明展开，所以编译器会忽略</li>
+<li>头文件中不仅要包含inline函数的声明，还要包含inline函数的定义</li>
+<li>编译器需要把inline函数体替换到函数调用处，所以编译器必须要知道inline函数的函数体是啥，所以要将inline函数的函数定义和函数声明一起写在头文件中，便与编译器查找替换。</li>
+<li>可以在同一个项目的不同源文件内定义函数名相同，实现相同的inline函数</li>
+<li>同一个inline函数可以多处声明和定义，但是必须要完全相同</li>
+<li>定义在class声明内的成员函数默认是inline函数</li>
+<li>类的构造函数不能是虚函数</li>
+<li>构造函数是为了构造对象的，所以在调用构造函数时候必然知道是哪个对象调用了构造函数，所以构造函数不能为虚函数。</li>
+<li>类的静态成员函数不能是虚函数</li>
+<li>类的静态成员函数是该类共用的，与该类的对象无关，静态函数里没有this指针，所以不能为虚函数。</li>
+</ul>
+<p>虚函数是为了实现动态绑定，不能声明为虚函数的有：</p>
+</blockquote>
+<blockquote>
+<p>1、静态成员函数； 2、类外的普通函数； 3、构造函数； 4、友元函数</p>
+</blockquote>
+<blockquote>
+<p>此外，还有一些函数可以声明为虚函数，但是没有意义，但编译器不会报错，如：</p>
+</blockquote>
+<blockquote>
+<p>1、赋值运算符的重载成员函数： 因为复制操作符的重载函数往往要求形参与类本身的类型一致才能实现函数功能，故形参类型往往是基类的类型，因此即使声明为虚函数，也把虚函数当普通基类普通函数使用。</p>
+</blockquote>
+<blockquote>
+<p>2、内联函数：内联函数目的是在代码中直接展开（编译期），而虚函数是为了继承后能动态绑定执行自己的动作（动态绑定），因此本质是矛盾的，因此即使内联函数声明为虚函数，编译器遇到这种情况是不会进行inline展开的，而是当作普通函数来处理。因此声明了虚函数不能实现内联的，即内联函数可以声明为虚函数，但是毫无了内联的意义。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/27/UnrealEngine/%E5%8D%95%E7%AB%A0/ComputerShaderInUE/" rel="prev" title="Computer Shader In UE">
+                  <i class="fa fa-chevron-left"></i> Computer Shader In UE
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

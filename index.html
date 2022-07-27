@@ -116,7 +116,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -146,6 +146,124 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/CPP/CPP%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/06/30/CPP/CPP%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">CPP 零散知识</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-06-30 10:35:55 / Modified: 10:59:13" itemprop="dateCreated datePublished" datetime="2022-06-30T10:35:55+08:00">2022-06-30</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="CPP-零散知识"><a href="#CPP-零散知识" class="headerlink" title="CPP 零散知识"></a>CPP 零散知识</h1><h2 id="1-虚函数-vs-内联"><a href="#1-虚函数-vs-内联" class="headerlink" title="1. 虚函数 vs 内联"></a>1. 虚函数 vs 内联</h2><p>类内实现是强制内联的。</p>
+<p>但是虚函数是会把内联给干到cpp内的。</p>
+<p>所以会导致子类不能转化为基类的问题。</p>
+<p>解决办法是，把类内实现给搞到cpp内，单独实现，不要内联。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 1.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>: <span class="keyword">public</span> A</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="comment">/// 2.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">visual A* <span class="title">fun1</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">D</span>: <span class="keyword">public</span> C</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 会出现 B转不了A的情况，我把fun1实现放cpp内就会通过</span></span><br><span class="line">    <span class="function">visual A* <span class="title">fun1</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span> </span>&#123;<span class="keyword">return</span> b;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    B* b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/shltsh/article/details/45999947">解释链接</a></p>
+<blockquote>
+<p>虚函数用于实现运行时的多态，或者称为晚绑定或动态绑定。而内联函数用于提高效率。<br>内联函数的原理是，在编译期间，对调用内联函数的地方的代码替换成函数代码。内联函数对于程序中需要频繁使用和调用的小函数非常有用。</p>
+</blockquote>
+<blockquote>
+<p>默认地，类中定义的所有函数，除了虚函数之外，会隐式地或自动地当成内联函数（注意：内联只是对于编译器的一个请求，编译器可以自己决定是否进行内联）。</p>
+</blockquote>
+<blockquote>
+<p>无论何时，使用基类指针或引用来调用虚函数，它都不能为内联函数（因为调用发生在运行时）。<br>但是，无论何时使用类的对象（不是指针或引用）来调用时，可以当做是内联，因为编译器在编译时确切知道对象是哪个类的。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">who</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;I am Base&quot;</span> &lt;&lt; std::endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">who</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;I am Derived&quot;</span> &lt;&lt; std::endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 此处的虚函数who()，是通过类的具体对象来调用的，编译期间就能确定了，所以它可以是内联的。</span></span><br><span class="line">    Base b;</span><br><span class="line">    b.<span class="built_in">who</span>();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 此处的虚函数是通过指针调用的，需要在运行时期间才能确定，所以不能为内联。</span></span><br><span class="line">    Base* ptr = <span class="keyword">new</span> <span class="built_in">Derived</span>();</span><br><span class="line">    ptr-&gt;<span class="built_in">who</span>();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leikun153/article/details/82187505">这个解释和总结的更好</a></p>
+<blockquote>
+<p>总结</p>
+<ul>
+<li>使用inline关键字的函数可能会被编译器忽略而不在调用处展开，如虚函数。</li>
+<li>如果定义的inline函数过大，为了防止生成的obj文件太大，编译器会忽略这里的inline声明</li>
+<li>inline是在编译器将函数类容替换到函数调用处，是静态编译的。而虚函数是动态调用的，在编译器并不知道需要调用的是父类还是子类的虚函数，所以不能够inline声明展开，所以编译器会忽略</li>
+<li>头文件中不仅要包含inline函数的声明，还要包含inline函数的定义</li>
+<li>编译器需要把inline函数体替换到函数调用处，所以编译器必须要知道inline函数的函数体是啥，所以要将inline函数的函数定义和函数声明一起写在头文件中，便与编译器查找替换。</li>
+<li>可以在同一个项目的不同源文件内定义函数名相同，实现相同的inline函数</li>
+<li>同一个inline函数可以多处声明和定义，但是必须要完全相同</li>
+<li>定义在class声明内的成员函数默认是inline函数</li>
+<li>类的构造函数不能是虚函数</li>
+<li>构造函数是为了构造对象的，所以在调用构造函数时候必然知道是哪个对象调用了构造函数，所以构造函数不能为虚函数。</li>
+<li>类的静态成员函数不能是虚函数</li>
+<li>类的静态成员函数是该类共用的，与该类的对象无关，静态函数里没有this指针，所以不能为虚函数。</li>
+</ul>
+<p>虚函数是为了实现动态绑定，不能声明为虚函数的有：</p>
+</blockquote>
+<blockquote>
+<p>1、静态成员函数； 2、类外的普通函数； 3、构造函数； 4、友元函数</p>
+</blockquote>
+<blockquote>
+<p>此外，还有一些函数可以声明为虚函数，但是没有意义，但编译器不会报错，如：</p>
+</blockquote>
+<blockquote>
+<p>1、赋值运算符的重载成员函数： 因为复制操作符的重载函数往往要求形参与类本身的类型一致才能实现函数功能，故形参类型往往是基类的类型，因此即使声明为虚函数，也把虚函数当普通基类普通函数使用。</p>
+</blockquote>
+<blockquote>
+<p>2、内联函数：内联函数目的是在代码中直接展开（编译期），而虚函数是为了继承后能动态绑定执行自己的动作（动态绑定），因此本质是矛盾的，因此即使内联函数声明为虚函数，编译器遇到这种情况是不会进行inline展开的，而是当作普通函数来处理。因此声明了虚函数不能实现内联的，即内联函数可以声明为虚函数，但是毫无了内联的意义。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -274,6 +392,82 @@
 <p><img src="/ComputerShaderInUE/resource/image-20220630013057846.png" alt="image-20220630013057846"></p>
 <p><img src="/ComputerShaderInUE/resource/image-20220630013116005.png" alt="image-20220630013116005"></p>
 <p><img src="/ComputerShaderInUE/resource/image-20220630015329716.png" alt="image-20220630015329716"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/TA/Handle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/06/27/TA/Handle/" class="post-title-link" itemprop="url">TA Handle</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-27 08:48:55" itemprop="dateCreated datePublished" datetime="2022-06-27T08:48:55+08:00">2022-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-07-25 18:34:47" itemprop="dateModified" datetime="2022-07-25T18:34:47+08:00">2022-07-25</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="UE-tangent-问题"><a href="#UE-tangent-问题" class="headerlink" title="UE tangent 问题"></a>UE tangent 问题</h2><p>static mesh 的法线，随着灯光变化，法线看起来就不对了。检查法线数据又是对的。这个时候把static mesh的tangent重新计算一下就可以了。</p>
 
       
     </div>
@@ -507,7 +701,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-06-23 21:28:00" itemprop="dateModified" datetime="2022-06-23T21:28:00+08:00">2022-06-23</time>
+      <time title="Modified: 2022-07-25 18:24:07" itemprop="dateModified" datetime="2022-07-25T18:24:07+08:00">2022-07-25</time>
     </span>
 
   
@@ -534,7 +728,7 @@
 <p>即: PrivateDependencyModuleNames中添加“EditorFramework”即可解决。</p>
 <p><a target="_blank" rel="noopener" href="https://pafuhana1213.hatenablog.com/entry/KawaiiPhysics-UE5-EA">KawaiiPhysics错误汇总</a></p>
 <h2 id="FGCObject"><a href="#FGCObject" class="headerlink" title="FGCObject"></a>FGCObject</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67055774">UE垃圾回收</a></p>
-
+<h2 id="TSharedPtr-lt-gt"><a href="#TSharedPtr-lt-gt" class="headerlink" title="TSharedPtr&lt;&gt;"></a>TSharedPtr&lt;&gt;</h2><h2 id="TSharedRef-lt-gt"><a href="#TSharedRef-lt-gt" class="headerlink" title="TSharedRef&lt;&gt;"></a>TSharedRef&lt;&gt;</h2>
       
     </div>
 
@@ -943,153 +1137,9 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/19/CPP/EffectiveModernCPP_Note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/19/CPP/EffectiveModernCPP_Note/" class="post-title-link" itemprop="url">Effective Modern C++ 读书笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-06-19 00:20:55 / Modified: 00:19:59" itemprop="dateCreated datePublished" datetime="2022-06-19T00:20:55+08:00">2022-06-19</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Effective-Modern-C-读书笔记"><a href="#Effective-Modern-C-读书笔记" class="headerlink" title="Effective Modern C++ 读书笔记"></a>Effective Modern C++ 读书笔记</h1><ol>
-<li>类型推导</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/16/CGFanTuan/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/16/CGFanTuan/" class="post-title-link" itemprop="url">CGFanTuan</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-06-16 22:00:55" itemprop="dateCreated datePublished" datetime="2022-06-16T22:00:55+08:00">2022-06-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-06-20 13:35:23" itemprop="dateModified" datetime="2022-06-20T13:35:23+08:00">2022-06-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="CGFanTuan"><a href="#CGFanTuan" class="headerlink" title="CGFanTuan"></a>CGFanTuan</h1>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 </div>
   </main>
