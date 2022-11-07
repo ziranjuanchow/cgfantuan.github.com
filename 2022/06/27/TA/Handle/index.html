@@ -20,17 +20,20 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="UE tangent 问题static mesh 的法线，随着灯光变化，法线看起来就不对了。检查法线数据又是对的。这个时候把static mesh的tangent重新计算一下就可以了。">
+    <meta name="description" content="UE tangent 问题static mesh 的法线，随着灯光变化，法线看起来就不对了。检查法线数据又是对的。这个时候把static mesh的tangent重新计算一下就可以了。 UE 材质实例参数设置问题UE的材质实例的参数，如果没有被激活，那么是设置不了参数的值的。但是这个激活，是需要编译的。有两种解决办法：  CreateDynamicMaterialInstance  创建一个材质实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TA Handle">
 <meta property="og:url" content="http://example.com/2022/06/27/TA/Handle/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="UE tangent 问题static mesh 的法线，随着灯光变化，法线看起来就不对了。检查法线数据又是对的。这个时候把static mesh的tangent重新计算一下就可以了。">
+<meta property="og:description" content="UE tangent 问题static mesh 的法线，随着灯光变化，法线看起来就不对了。检查法线数据又是对的。这个时候把static mesh的tangent重新计算一下就可以了。 UE 材质实例参数设置问题UE的材质实例的参数，如果没有被激活，那么是设置不了参数的值的。但是这个激活，是需要编译的。有两种解决办法：  CreateDynamicMaterialInstance  创建一个材质实">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Handle.assets/image-20221101150020556.png">
+<meta property="og:image" content="http://example.com/Handle.assets/image-20221101150133060.png">
 <meta property="article:published_time" content="2022-06-27T00:48:55.000Z">
-<meta property="article:modified_time" content="2022-07-25T10:34:47.689Z">
+<meta property="article:modified_time" content="2022-11-07T06:04:38.184Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Handle.assets/image-20221101150020556.png">
 
 
 <link rel="canonical" href="http://example.com/2022/06/27/TA/Handle/">
@@ -108,7 +111,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UE-tangent-%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">UE tangent 问题</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UE-tangent-%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">UE tangent 问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UE-%E6%9D%90%E8%B4%A8%E5%AE%9E%E4%BE%8B%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">UE 材质实例参数设置问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Houdini-Labs-Maps-Baker%E8%8A%82%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">Houdini Labs Maps Baker节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UE-world-scene%E7%9A%84actor-%E8%B7%AF%E5%BE%84"><span class="nav-number">4.</span> <span class="nav-text">UE world scene的actor 路径</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UE4-URPOPERTY%E9%99%90%E5%88%B6%E5%8F%98%E9%87%8F%E6%9C%80%E5%A4%A7max%E6%9C%80%E5%B0%8F%E5%80%BCmin%E5%80%BC"><span class="nav-number"></span> <span class="nav-text">UE4 URPOPERTY限制变量最大max最小值min值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E5%AE%9A%E4%B9%89%E5%92%8C%E5%A3%B0%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">C++ 定义和声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Houdini-HDA%E5%86%85%E7%BC%96%E8%BE%91%E5%8F%82%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Houdini HDA内编辑参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#20221102"><span class="nav-number">2.1.</span> <span class="nav-text">20221102</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -197,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 18:34:47" itemprop="dateModified" datetime="2022-07-25T18:34:47+08:00">2022-07-25</time>
+      <time title="Modified: 2022-11-07 14:04:38" itemprop="dateModified" datetime="2022-11-07T14:04:38+08:00">2022-11-07</time>
     </span>
 
   
@@ -211,7 +214,35 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="UE-tangent-问题"><a href="#UE-tangent-问题" class="headerlink" title="UE tangent 问题"></a>UE tangent 问题</h2><p>static mesh 的法线，随着灯光变化，法线看起来就不对了。检查法线数据又是对的。这个时候把static mesh的tangent重新计算一下就可以了。</p>
+<h2 id="UE-材质实例参数设置问题"><a href="#UE-材质实例参数设置问题" class="headerlink" title="UE 材质实例参数设置问题"></a>UE 材质实例参数设置问题</h2><p>UE的材质实例的参数，如果没有被激活，那么是设置不了参数的值的。但是这个激活，是需要编译的。有两种解决办法：</p>
+<ol>
+<li><p>CreateDynamicMaterialInstance</p>
+</li>
+<li><p>创建一个材质实例A，这个材质实例的参数是激活的，然后要用的这个材质实例的parent设置为这个A就可以了。这个会多一个材质实例。</p>
+</li>
+<li><p>（新增） 用UMaterialEditorInstanceContant这个友元</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">UMaterial* Mat = <span class="built_in">LoadObject</span>&lt;UMaterial&gt;(<span class="literal">nullptr</span>, MatPath);</span><br><span class="line">UPackage* MISPackage = <span class="built_in">LoadPackage</span>(<span class="literal">nullptr</span>, *(<span class="string">&quot;/Path&quot;</span>), LOAD_None)</span><br><span class="line"><span class="keyword">if</span>(!MISPackage)</span><br><span class="line">&#123;</span><br><span class="line">    MISPackage = <span class="built_in">CreatePackage</span>(*(<span class="string">&quot;/Path&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line">UMaterialInstanceConstant* MISAsset = <span class="built_in">NewObject</span>&lt;UMaterialInstanceConstant&gt;(MISPackage,*(MIS_River), RF_Public | RF_Standalone);</span><br><span class="line">UMaterialEditorInstanceConstant* MISAssetEditorIns = <span class="built_in">NewObject</span>&lt;UMaterialEditorInstanceConstant&gt;(MISAsset);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> paramGraps : MISAssetEditorIns-&gt;ParameterGroups)</span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">if</span>(paramGraps.GroupName.<span class="built_in">ToString</span>() ==  <span class="string">&quot;Flowmap&quot;</span>)</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">auto</span> param: paramGraps.Parameters)</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="keyword">if</span>(param-&gt;<span class="built_in">GetName</span>() == <span class="string">&quot;Flowmap&quot;</span>)</span><br><span class="line">            param-&gt;bOverride = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">MISAsset-&gt;<span class="built_in">SetTextureParameterValueEditorOnly</span>(MPITemp,flowmap);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Houdini-Labs-Maps-Baker节点"><a href="#Houdini-Labs-Maps-Baker节点" class="headerlink" title="Houdini Labs Maps Baker节点"></a>Houdini Labs Maps Baker节点</h2><p>注意Gamma校正,srgb是1(比如flowmap).正常出图是2.2</p>
+<h2 id="UE-world-scene的actor-路径"><a href="#UE-world-scene的actor-路径" class="headerlink" title="UE world scene的actor 路径"></a>UE world scene的actor 路径</h2><p>aactor调用setfolderpath的路径(“PCG&#x2F;River”)，前面不要加“&#x2F;”，否则就会判断FGUID不一致，重新生成。</p>
+<h1 id="UE4-URPOPERTY限制变量最大max最小值min值"><a href="#UE4-URPOPERTY限制变量最大max最小值min值" class="headerlink" title="UE4 URPOPERTY限制变量最大max最小值min值"></a>UE4 URPOPERTY限制变量最大max最小值min值</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere, Category = <span class="string">&quot;Call&quot;</span>, meta = (ClampMin=<span class="number">0</span>,ClampMax=<span class="number">10</span>))</span><br><span class="line">   uint8 CallNum= <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
 
+<p><a target="_blank" rel="noopener" href="https://note.youdao.com/ynoteshare/index.html?id=ece6e1e0e63f670f4cd882aeeef16fb5&amp;type=note&amp;_time=1660097008817">https://note.youdao.com/ynoteshare/index.html?id=ece6e1e0e63f670f4cd882aeeef16fb5&amp;type=note&amp;_time=1660097008817</a></p>
+<h2 id="C-定义和声明"><a href="#C-定义和声明" class="headerlink" title="C++ 定义和声明"></a>C++ 定义和声明</h2><p>模板由于是编译期前就要确定的，所以其他文件使用，需要都在头文件内，比如slt。</p>
+<p>但是其他函数，如果不加FORCEINLINE的话，就需要定义声明分离。.h文件声明，.cpp文件定义</p>
+<h2 id="Houdini-HDA内编辑参数"><a href="#Houdini-HDA内编辑参数" class="headerlink" title="Houdini HDA内编辑参数"></a>Houdini HDA内编辑参数</h2><p>houdini hda内要编辑hda内节点参数，需要allow editor</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hou</span><br><span class="line">hahaha = kwargs[<span class="string">&#x27;node&#x27;</span>]</span><br><span class="line">hahaha.allowEditingOfContents()</span><br></pre></td></tr></table></figure>
+
+<p>20221101</p>
+<ol>
+<li>河流用体积方式生成mesh</li>
+<li>高模烘成点，速度归一化</li>
+<li>河床对速度影响，flowmap_obstacle 距离场影响速度</li>
+<li>flowmap 自适应水流方向</li>
+</ol>
+<p><img src="/Handle.assets/image-20221101150020556.png" alt="image-20221101150020556"></p>
+<p><img src="/Handle.assets/image-20221101150133060.png" alt="image-20221101150133060"></p>
+<h3 id="20221102"><a href="#20221102" class="headerlink" title="20221102"></a>20221102</h3>
     </div>
 
     
